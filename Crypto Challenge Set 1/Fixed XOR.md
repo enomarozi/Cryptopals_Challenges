@@ -7,21 +7,11 @@ Hexa_2 = 686974207468652062756c6c277320657965
 <p>Lakukan operasi XOR terhadap kedua nilai Hexadesimal, yang operasi XOR dilakukan per 1 bytes Hexadesimal yang secara berurut hingga 1 bytes Hexadesimal terakhir</p>
 
 ```python
-result_hex = ''
-result_txt = ''
-def split_bytes(text):
-    data = [text[:i][-2:] for i in range(2,len(text)+2,2)]
-    return data
-
-str_ = split_bytes("1c0111001f010100061a024b53535009181c")
-xor_ = split_bytes("686974207468652062756c6c277320657965")
-for i,j in zip(str_,xor_):
-    result_hex += hex(int(i,16)^int(j,16))[2:].rjust(2,'0')
-    result_txt += chr(int(i,16)^int(j,16))
-    
-print("Result Hexa : ",result_hex)
-print("Result Text : ",result_txt)
-
+val_1 = bytes.fromhex("1c0111001f010100061a024b53535009181c")
+val_2 = bytes.fromhex("686974207468652062756c6c277320657965")
+result = ''.join([hex(i^j).replace('0x','') for i,j in zip(val_1,val_2)])
+print(f"Result Hexa : {result}")
+print("Result Text :",bytes.fromhex(result))
 ```
 <p>Output</p>
 <pre>
