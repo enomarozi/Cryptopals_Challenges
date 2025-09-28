@@ -13,27 +13,28 @@ root@Python:/home/venom/Downloads# wc -l 4.txt
 Yang nantinya kita akan mendapatkan 326 * 60 yaitu 19560 kemungkinan plaintext</p>
 
 ```python
-def xoor(n):
-    listing = [i for i in range(33,65)]
-    file = open("4.txt")
-    for i in file:
-        i = i.strip('\n')
-        result = ""
-        for j in bytes.fromhex(i):
-            compute = j^n
-            if compute > 31 and compute < 127:
-                if compute not in listing:
-                    result += chr(compute)
-        if len(result) >= 28:
-            print("Hexa encode -->",i,"\nKey -->",n,"\nPlaintext -->",result)
-        
-for j in range(61):
-    xoor(j)
+import requests
+
+def brute(cip, key):
+    result = ''
+    for i in bytes.fromhex(cip):
+        text = i^key
+        if text == 32 or (text >= 64 and text <= 122):
+            result += chr(i^key)
+    if len(result) >= 29:
+        print(f"Result : {result}")
+        print(f"Key : {chr(key)}")
+    result = ''
+            
+with open('4.txt','r') as f: 
+    for cip in f.readlines():
+        for key in range(32,127):
+            brute(cip.strip(),key)
 ```
 <p>Output Program</p>
 <pre>
-Hexa encode --> 7b5a4215415d544115415d5015455447414c155c46155f4058455c5b523f 
-Key --> 53 
+Result : Now that the party is jumping
+Key : chr(53)
 Plaintext --> Now that the party is jumping
 </pre>
 </b><h3>Result</h3></b>
