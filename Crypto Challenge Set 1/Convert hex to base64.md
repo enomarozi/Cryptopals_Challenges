@@ -8,14 +8,12 @@ The string:
 <p>Convert hexa to ascii dan encode ke base64</p>
 
 ```python
-ascii_base64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+from base64 import b64encode
 
-hexa = '49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d'
-result_step1 = ''.join([bin(int(hexa[:i][-2:],16))[2:].rjust(8,'0') for i in range(2,len(hexa)+2,2)])
-result_step2 = ''.join([ascii_base64[int(result_step1[:i][-6:].rjust(8,'0'),2)] for i in range(6,len(result_step1)+6,6)])
-data = ''.join([chr(int(hexa[:i][-2:],16)) for i in range(2,len(hexa)+2,2)])
-print("Result Base64 :",result_step2)
-print("Result Decode :",data)
+text = bytes.fromhex('49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d')
+result = b64encode(text).decode('ascii')
+print("Result Base64 :",result)
+print("Result Decode :",text)
 ```
 <p>Output</p>
 <pre>
