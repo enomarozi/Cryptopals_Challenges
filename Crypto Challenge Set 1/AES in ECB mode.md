@@ -13,15 +13,19 @@ The Base64-encoded content <a href='https://cryptopals.com/static/challenge-data
 <p>Untuk encryption diatas menggunakan key "YELLOW SUBMARINE" yang terdiri dari 16 block string</p>
 
 ```python
-from Crypto.Cipher import AES
-import base64
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.primitives import padding
+from cryptography.hazmat.backends import default_backend
+from base64 import b64decode
 
-file = open("7.txt").read()
-decode = base64.b64decode(file)
 key = b"YELLOW SUBMARINE"
-crypto_system = AES.new(key,AES.MODE_ECB)
-plaintext = crypto_system.decrypt(decode)
-print(plaintext)
+ciphertext = b64decode(open("7.txt",'r').read())
+cipher = Cipher(algorithms.AES(key), modes.ECB(), backend=default_backend())
+decryptor = cipher.decryptor()
+decrypted_padded = decryptor.update(ciphertext) + decryptor.finalize()
+unpadder = padding.PKCS7(128).unpadder()
+plaintext = unpadder.update(decrypted_padded) + unpadder.finalize()
+print(plaintext.decode())
 ```
 <p>Output Program</p>
 <pre>
